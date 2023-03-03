@@ -9,19 +9,19 @@ exports.cadastrarUsuario = async (req,res,next) => {
         [req.body.email]) 
         
         if(resultSelect.length > 0){
-            return res.status(409).send({mensagem:"Usuário já cadastrado"});
+            return res.status(409).json({mensagem:"Usuário já cadastrado"});
         }
 
         const result = await mysql.execute("INSERT INTO usuarios (email,password) VALUES (?,?)",
         [req.body.email,req.body.password])
 
-        res.status(201).send({
+        res.status(201).json({
             mensagem: 'Usuario cadastrado com sucesso'
         });
 
 
     } catch (error) {
-        return res.status(500).send({error:error});
+        return res.status(500).json({error:error});
     }
 
     // mysql.getConnection((error,conn) => {

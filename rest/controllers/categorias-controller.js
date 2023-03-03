@@ -12,7 +12,7 @@ exports.getCategorias = async (req,res,next) => {
             }
         })
 
-        return res.status(200).send(categorias)
+        return res.status(200).json(categorias)
 
-    } catch (error) {return res.status(500).send({error:error})}
+    } catch (error) {return res.status(500).json({error:error})}
 }

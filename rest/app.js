@@ -13,16 +13,20 @@ app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
 app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header(
-        'Access-Control-Allow-Header',
-        'Origin, X-Requested-With, Content-Type, Accept, Authorization'
-    );
+    // res.header('Access-Control-Allow-Origin', '*');
+    // res.header(
+    //     'Access-Control-Allow-Header',
+    //     'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+    // );
 
-    if (req.method === 'OPTIONS') {
-        res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
-        return res.status(200).send({});
-    }
+    // if (req.method === 'OPTIONS' || req.method.toLowerCase() === 'options') {
+    //     res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
+    //     return res.status(200).send({});
+    // }
+
+    res.setHeader("Access-Control-Allow-Origin", '*');
+    res.setHeader('Access-Control-Allow-Methods', 'POST,GET,OPTIONS,PUT,DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Accept');
     next();
 });
 

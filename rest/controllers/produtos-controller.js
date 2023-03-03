@@ -15,9 +15,9 @@ exports.getProdutos = async (req,res,next) => {
             }
         })
 
-        return res.status(200).send(produtos)
+        return res.status(200).json(produtos)
 
-    } catch (error) {return res.status(500).send({error:error})}
+    } catch (error) {return res.status(500).json({error:error})}
 }
 
 exports.getProdutosById = async (req,res,next) => {
@@ -27,12 +27,12 @@ exports.getProdutosById = async (req,res,next) => {
         const result  = await mysql.execute(query,req.params.id_produto)
 
         if(result.length == 0)
-                return res.status(404).send({mensagem: "Produto não encontrado com este ID"});
+                return res.status(404).json({mensagem: "Produto não encontrado com este ID"});
 
-        res.status(200).send(result[0]);
+        res.status(200).json(result[0]);
 
     } catch (error) {
-        return res.status(500).send({error:error});
+        return res.status(500).json({error:error});
     }
 }
 
@@ -43,13 +43,13 @@ exports.postProdutos = async (req,res,next) => {
         const result = await mysql.execute(query,
         [req.body.nome,req.body.preco,req.body.id_categoria])
 
-        res.status(201).send({
+        res.status(201).json({
             mensagem: 'Produto inserido com sucesso',
             id_produto : result.insertId
         });
         
     } catch (error) {
-        return res.status(500).send({error:error});
+        return res.status(500).json({error:error});
     }
 }
 
@@ -63,13 +63,13 @@ exports.updateProduto = async (req,res,next) =>{
 
         const result = await mysql.execute(query,[req.body.nome,req.body.preco,req.params.id_produto])
 
-        res.status(202).send({
+        res.status(202).json({
             mensagem: 'Produto atualizado com sucesso'
         });
 
 
     } catch (error) {
-        return res.status(500).send({error:error});
+        return res.status(500).json({error:error});
     }
 }
 
@@ -78,11 +78,11 @@ exports.deleteProdutos = async (req,res,next) => {
         const query = "DELETE FROM produtos WHERE id_produto = ?";
         const result = await mysql.execute(query,[req.params.id_produto])
 
-        res.status(202).send({
+        res.status(202).json({
             mensagem: 'Produto removido com sucesso !'
         });
         
     } catch (error) {
-        if(error){return res.status(500).send({error:error});}
+        if(error){return res.status(500).json({error:error});}
     }
 }

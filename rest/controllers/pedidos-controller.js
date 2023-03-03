@@ -21,10 +21,10 @@ exports.getPedidos = async (req,res,next) => {
             }
         })
 
-        return res.status(200).send(pedidos)
+        return res.status(200).json(pedidos)
 
     } catch (error) {
-        return res.status(500).send({error:error});
+        return res.status(500).json({error:error});
     }
 }
 
@@ -35,12 +35,12 @@ exports.getPedidosById = async (req,res,next) => {
         const result = await mysql.execute(query,[req.params.id_pedido])
 
         if(result.length == 0)
-            return res.status(404).send({mensagem: "Pedido não encontrado com este ID"});
+            return res.status(404).json({mensagem: "Pedido não encontrado com este ID"});
 
-        res.status(200).send(result[0]);
+        res.status(200).json(result[0]);
 
     } catch (error) {
-        return res.status(500).send({error:error});
+        return res.status(500).json({error:error});
     }
 }
 
@@ -51,7 +51,7 @@ exports.postPedidos = async (req,res,next) => {
         const resultProdutos = await mysql.execute(queryProdutos,[req.body.id_produto]);
 
         if (resultProdutos.length == 0){
-            return res.status(404).send({mensagem: 'Produto não encontrado'})
+            return res.status(404).json({mensagem: 'Produto não encontrado'})
         }
 
         const query = "INSERT INTO pedidos (id_produto, quantidade) VALUES (?,?)";
@@ -71,10 +71,10 @@ exports.postPedidos = async (req,res,next) => {
             quantidade: req.body.quantidade,
         }
 
-        return res.status(201).send(response);
+        return res.status(201).json(response);
 
     } catch (error) {
-        return res.status(500).send({ error: error })
+        return res.status(500).json({ error: error })
     }
 
 }
@@ -89,13 +89,13 @@ exports.updatePedido = async (req,res,next) =>{
 
         const result = await mysql.execute(query,[req.body.quantidade,req.params.id_pedido])
 
-        res.status(202).send({
+        res.status(202).json({
             mensagem: 'Pedido atualizado com sucesso'
         });
 
 
     } catch (error) {
-        return res.status(500).send({error:error});
+        return res.status(500).json({error:error});
     }
 }
 
@@ -105,12 +105,12 @@ exports.deletePedidos = async (req,res,next) => {
         const query = "DELETE FROM pedidos WHERE id_pedido = ?";
         const result = await mysql.execute(query,[req.params.id_pedido]);
 
-        res.status(202).send({
+        res.status(202).json({
             mensagem: 'Pedido removido com sucesso !'
             // teste: result.affectedRows
         });
 
     } catch (error) {
-        return res.status(500).send({error:error});
+        return res.status(500).json({error:error});
     }
 }
